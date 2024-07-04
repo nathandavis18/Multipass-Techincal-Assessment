@@ -11,17 +11,34 @@ if (POLICY CMP0141)
 endif()
 
 
-find_package(daw-json-link)
-if(NOT daw-json-link_FOUND)
+find_package(nlohmann_json)
+if(NOT nlohmann_json_FOUND)
 	include(FetchContent)
 	FetchContent_Declare(
-		daw_json_link
-		GIT_REPOSITORY https://github.com/beached/daw_json_link
-		GIT_TAG release
+		nlohmann_json
+		GIT_REPOSITORY https://github.com/nlohmann/json
+		GIT_TAG v3.11.3
 	)
-	FetchContent_MakeAvailable(daw_json_link)
-endif(NOT daw-json-link_FOUND)
+	FetchContent_MakeAvailable(nlohmann_json)
+endif(NOT nlohmann_json_FOUND)
 
-add_executable (UbuntuParser parser.cpp parser.hpp)
-target_link_libraries(UbuntuParser PRIVATE daw::daw-json-link)
+if(WIN32)
+	set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+endif()
+
+find_package(cpr)
+if(NOT cpr_FOUND)
+	include(FetchContent)
+	FetchContent_Declare(
+		cpr
+		GIT_REPOSITORY https://github.com/libcpr/cpr.git
+		GIT_TAG 3b15fa82ea74739b574d705fea44959b58142eb8
+	)
+	FetchContent_MakeAvailable(cpr)
+endif(NOT cpr_FOUND)
+
+add_executable (UbuntuParser "src/ubuntu-parser.cpp" "src/main.cpp")
+target_include_directories(UbuntuParser PRIVATE "src/include")
+target_link_libraries(UbuntuParser PRIVATE nlohmann_json::nlohmann_json cpr::cpr)
 target_compile_features(UbuntuParser PRIVATE cxx_std_20)
