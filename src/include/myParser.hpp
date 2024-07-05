@@ -7,12 +7,9 @@
 #include "Poco/JSON/Object.h"
 #include "Poco/JSON/Parser.h"
 #include <memory>
-#include <iostream>
 #include <string>
 #include <algorithm>
-#include <fstream>
 #include <sstream>
-#include <filesystem>
 
 using Poco::URIStreamOpener;
 using Poco::StreamCopier;
@@ -44,13 +41,10 @@ protected:
 	}
 private:
 	/// <summary>
-	/// Uses the Poco::Net library
-	/// Opens the url to the Ubuntu Cloud Image information and streams it into an istream.
-	/// Copies all information into an std::string.
-	/// Should not be called by derived/child classes
+	/// Opens the url and streams the data into a string to later be parsed by the JSON library.
 	/// </summary>
-	/// <param name="url">The URL to download from</param>
-	/// <param name="outString">A reference to the output string to prevent the need for copying the string</param>
+	/// <param name="url">The URL to open</param>
+	/// <param name="outString">The output string to prevent unnecessary copies</param>
 	void getUrlResponse(const std::string& url, std::string& outString)
 	{
 		HTTPStreamFactory::registerFactory();
