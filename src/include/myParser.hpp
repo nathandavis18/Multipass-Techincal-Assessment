@@ -56,22 +56,8 @@ private:
 		HTTPStreamFactory::registerFactory();
 		try
 		{
-			std::filesystem::path filePath = std::filesystem::current_path() / "out.json";
-			if (std::filesystem::exists(filePath))
-			{
-				std::filesystem::remove(filePath);
-			}
-
-			{
-				std::ofstream outFile("out.json");
-				std::unique_ptr<std::istream> pStr(URIStreamOpener::defaultOpener().open(url));
-				Poco::StreamCopier::copyStreamUnbuffered64(*pStr, outFile);
-			}
-			{
-				std::ifstream inputFile("out.json");
-				Poco::StreamCopier::copyToString64(inputFile, outString);
-			}
-			std::filesystem::remove(filePath);
+			std::unique_ptr<std::istream> pStr(URIStreamOpener::defaultOpener().open(url));
+			Poco::StreamCopier::copyToString64(*pStr, outString, 16384);
 		}
 		catch (Exception& ex)
 		{
