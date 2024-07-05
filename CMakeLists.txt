@@ -21,7 +21,7 @@ endif()
 add_executable (UbuntuParser "src/ubuntu-parser.cpp" "src/main.cpp")
 target_include_directories(UbuntuParser PRIVATE "src/include")
 target_link_libraries(UbuntuParser PRIVATE Poco::Net Poco::JSON)
-target_compile_features(UbuntuParser PRIVATE cxx_std_20)
+target_compile_features(UbuntuParser PRIVATE cxx_std_17)
 
 if(WIN32)
 	set_target_properties(UbuntuParser PROPERTIES RUNTIME_OUTPUT_DIRECTORY 
