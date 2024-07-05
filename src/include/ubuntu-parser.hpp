@@ -12,8 +12,10 @@ public:
 	void displaySupportedVersions();
 	void displayCurrentVersion();
 	void displayDiskImageSha256(const std::string& version);
+
 private:
 	void getAmd64Products(const JsonObject::Ptr objPtr);
+
 private:
 	std::vector<std::string> amd64ProductNames;
 	JsonObject::Ptr mainObject;

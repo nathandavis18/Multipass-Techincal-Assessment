@@ -42,10 +42,11 @@ int main(int argc, char** argv)
 	}
 	else if (command == "-help" || command == "-h")
 	{
-		std::string commands = "\nCOMMANDS\n\n-supported-versions {ALIAS: -s}\t\tDisplays all currently supported versions of Ubuntu.\n\n";
+		std::string commands = "\nCOMMANDS\n\n";
 		commands += "-current-version {ALIAS: -cv}\t\tDisplays the current LTS version of Ubuntu.\n\n";
 		commands += "-disk-image [version] {ALIAS: -d}\tDisplays the SHA256 of the disk1.img of the given version. \n\t\t\t\t\tDefaults to the current version of Ubuntu.\n\n";
 		commands += "-help {ALIAS: -h}\t\t\tDisplays this help page\n\n";
+		commands += "-supported-versions {ALIAS: -s}\t\tDisplays all currently supported versions of Ubuntu.\n\n";
 
 		std::cout << commands;
 	}
