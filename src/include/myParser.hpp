@@ -3,14 +3,19 @@
 #include "Poco/URI.h"
 #include "Poco/Exception.h"
 #include "Poco/Net/HTTPStreamFactory.h"
+#include "Poco/StreamCopier.h"
 #include "Poco/JSON/Object.h"
 #include "Poco/JSON/Parser.h"
 #include <memory>
 #include <iostream>
 #include <string>
 #include <algorithm>
+#include <fstream>
+#include <sstream>
+#include <filesystem>
 
 using Poco::URIStreamOpener;
+using Poco::StreamCopier;
 using Poco::Path;
 using Poco::URI;
 using Poco::Exception;
@@ -30,11 +35,11 @@ protected:
 	/// <returns>A JSON Object of the text data</returns>
 	JsonObject::Ptr loadJsonData(const std::string& url)
 	{	
-		std::string contents;
-		getUrlResponse(url, contents);
-		Poco::JSON::Parser parser;
-		auto result = parser.parse(contents);
+		std::string jsonString;
+		getUrlResponse(url, jsonString);
 
+		Poco::JSON::Parser parser;
+		auto result = parser.parse(jsonString);
 		return result.extract<JsonObject::Ptr>();
 	}
 private:
@@ -51,9 +56,22 @@ private:
 		HTTPStreamFactory::registerFactory();
 		try
 		{
-			URI uri(url);
-			std::unique_ptr<std::istream> pStr(URIStreamOpener::defaultOpener().open(uri));
-			std::copy(std::istreambuf_iterator<char>(pStr.get()->rdbuf()), std::istreambuf_iterator<char>(), std::back_inserter(outString));
+			std::filesystem::path filePath = std::filesystem::current_path() / "out.json";
+			if (std::filesystem::exists(filePath))
+			{
+				std::filesystem::remove(filePath);
+			}
+
+			{
+				std::ofstream outFile("out.json");
+				std::unique_ptr<std::istream> pStr(URIStreamOpener::defaultOpener().open(url));
+				Poco::StreamCopier::copyStreamUnbuffered64(*pStr, outFile);
+			}
+			{
+				std::ifstream inputFile("out.json");
+				Poco::StreamCopier::copyToString64(inputFile, outString);
+			}
+			std::filesystem::remove(filePath);
 		}
 		catch (Exception& ex)
 		{

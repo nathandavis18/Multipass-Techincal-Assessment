@@ -12,3 +12,8 @@ A CLI tool to parse data from the Ubuntu Cloud Images JSON page.
 	-help {ALIAS -h}					Displays the help page
 
 	-supported-versions {ALIAS -s}		Displays all currently supported versions of Ubuntu.
+
+
+## Building
+
+Requires CMake 3.8+ and a C++ compiler with C++17 support.
