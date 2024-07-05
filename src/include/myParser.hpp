@@ -20,7 +20,7 @@ using JsonObject = Poco::JSON::Object;
 /// <summary>
 /// An header-only abstract class that can be used for any JSON Parsing from a given URL
 /// </summary>
-class MyParser abstract
+class MyParser
 {
 protected:
 	/// <summary>
