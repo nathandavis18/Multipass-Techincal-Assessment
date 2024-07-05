@@ -11,7 +11,7 @@ int main(int argc, char** argv)
 {	
 	if (argc < 2 || (argc > 2 && (argv[2] != "-d" || argv[2] != "-disk-image")))
 	{
-		std::cerr << "Invalid Usage. Use [APPNAME] -help to view all possible options";
+		std::cerr << "Invalid Usage. Use UbuntuParser -help to view all possible options" << std::endl;
 		exit(EXIT_FAILURE);
 	}
 
