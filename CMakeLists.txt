@@ -2,7 +2,7 @@
 # project specific logic here.
 #
 cmake_minimum_required (VERSION 3.8)
-project (UbuntuParser LANGUAGES CXX)
+project (UbuntuParser)
 
 find_package(poco)
 if(NOT poco_FOUND)
