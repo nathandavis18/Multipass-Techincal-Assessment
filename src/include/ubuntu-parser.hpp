@@ -1,13 +1,20 @@
 #pragma once
-#include <nlohmann/json.hpp>
-#include <cpr/cpr.h>
+#include <vector>
 #include "myParser.hpp"
 
+/// <summary>
+/// The derived class specializing in extracting information from the Ubuntu Cloud Images Json
+/// </summary>
 class UbuntuParser : public MyParser
 {
 public:
-	UbuntuParser(const cpr::Url& url);
-	const Json& getJsonData();
+	UbuntuParser();
+	void displaySupportedVersions();
+	void displayCurrentVersion();
+	void displayDiskImageSha256(const std::string& version);
 private:
-	Json data;
+	void getAmd64Products(const JsonObject::Ptr objPtr);
+private:
+	std::vector<std::string> amd64ProductNames;
+	JsonObject::Ptr mainObject;
 };
